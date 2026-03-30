@@ -5,7 +5,7 @@ const SECRET = new TextEncoder().encode(
   process.env.JWT_SECRET || "santa-madalena-secret-key-2024",
 );
 
-const protectedPaths = ["/admin/dashboard", "/admin/dizimo", "/admin/membros"];
+const protectedPaths = ["/admin/dashboard", "/admin/dizimo", "/admin/membros", "/admin/conteudos", "/admin/relatorios"];
 
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
@@ -27,5 +27,5 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/admin/dashboard/:path*", "/admin/dizimo/:path*", "/admin/membros/:path*"],
+  matcher: ["/admin/dashboard/:path*", "/admin/dizimo/:path*", "/admin/membros/:path*", "/admin/conteudos/:path*", "/admin/relatorios/:path*"],
 };

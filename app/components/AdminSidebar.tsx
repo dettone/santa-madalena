@@ -6,6 +6,8 @@ const navItems = [
   { href: "/admin/dashboard", label: "Painel", icon: "📊" },
   { href: "/admin/dizimo", label: "Dízimo", icon: "💰" },
   { href: "/admin/membros", label: "Membros", icon: "👥" },
+  { href: "/admin/conteudos", label: "Conteúdos", icon: "📝" },
+  { href: "/admin/relatorios", label: "Relatórios", icon: "📄" },
 ];
 
 export default function AdminSidebar() {

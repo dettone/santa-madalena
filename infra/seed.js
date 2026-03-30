@@ -121,7 +121,31 @@ async function seed() {
         [d.member_id, d.nome_contribuinte, d.valor, d.mes, d.ano, d.forma_pagamento, d.observacao]
       );
     }
-    console.log(`✠  ${dizimos.length} registros de dízimo inseridos.\n`);
+    console.log(`✠  ${dizimos.length} registros de dízimo inseridos.`);
+
+    // Insere conteúdos de exemplo
+    await client.query("DELETE FROM payment_logs");
+    await client.query("DELETE FROM payments");
+    await client.query("DELETE FROM contents");
+
+    const conteudos = [
+      { tipo: "aviso", titulo: "Festa de Santa Maria Madalena – 22 de Julho", corpo: "Celebramos a festa de nossa padroeira com missa solene às 10h, procissão e festa comunitária. Traga sua família para este momento especial de fé e confraternização. A comunidade prepara comidas típicas e atividades para as crianças.", publicado: true, data_pub: "2026-03-30" },
+      { tipo: "reflexao", titulo: "\"Vi o Senhor!\" – A fé de Maria Madalena", corpo: "Maria Madalena foi a primeira testemunha da Ressurreição. Sua fé inabalável nos ensina que o encontro pessoal com Cristo transforma nossas vidas. Nesta semana, reservemos um momento de silêncio para ouvir a voz do Senhor em nossos corações.", publicado: true, data_pub: "2026-03-29" },
+      { tipo: "evento", titulo: "Retiro Espiritual – Quaresma 2026", corpo: "Retiro de um dia para adultos no Salão Paroquial. Tema: \"Conversão e Misericórdia\". Inscrições abertas na secretaria até sexta-feira. Vagas limitadas. Contribuição voluntária para o café da manhã e almoço comunitário.", publicado: true, data_pub: "2026-03-28" },
+      { tipo: "aviso", titulo: "Horário especial da Semana Santa", corpo: "Durante a Semana Santa, as missas terão horários especiais. Consulte a programação completa na secretaria ou pelo telefone da paróquia. Confissões disponíveis de segunda a quarta, das 15h às 17h.", publicado: true, data_pub: "2026-03-27" },
+      { tipo: "reflexao", titulo: "O Dízimo como expressão de gratidão", corpo: "\"Trazei todos os dízimos à casa do tesouro\" (Ml 3,10). O dízimo não é apenas uma contribuição financeira, mas um ato de fé e gratidão a Deus por tudo que recebemos. Cada contribuição sustenta a missão evangelizadora da nossa comunidade.", publicado: true, data_pub: "2026-03-26" },
+      { tipo: "evento", titulo: "Encontro de Casais – Abril 2026", corpo: "Encontro mensal para casais no próximo sábado, dia 05/04, às 19h no Salão Paroquial. Tema: \"Comunicação e Perdão na Vida Conjugal\". Tragam um prato para compartilhar na ceia fraterna.", publicado: true, data_pub: "2026-03-25" },
+      { tipo: "aviso", titulo: "Catequese – Matrículas abertas", corpo: "As matrículas para a catequese de Primeira Eucaristia e Crisma estão abertas. Procure a secretaria paroquial com documentos do candidato. Início das aulas em fevereiro.", publicado: false, data_pub: "2026-04-01" },
+    ];
+
+    for (const c of conteudos) {
+      await client.query(
+        `INSERT INTO contents (tipo, titulo, corpo, publicado, data_publicacao)
+         VALUES ($1,$2,$3,$4,$5)`,
+        [c.tipo, c.titulo, c.corpo, c.publicado, c.data_pub]
+      );
+    }
+    console.log(`✠  ${conteudos.length} conteúdos inseridos (${conteudos.filter(c => c.publicado).length} publicados).\n`);
 
     // Relatório resumido
     const totais = await client.query(`
